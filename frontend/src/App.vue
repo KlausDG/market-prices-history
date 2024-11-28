@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import TodoListView from "./components/TodoListView.vue";
+import MarketListView from "./components/MarketListView.vue";
+import QrScanner from "./components/QrScanner.vue";
+
 
 </script>
 
 <template>
-  <TodoListView />  
+  <QrScanner />
+  <MarketListView />  
 </template>
 
 <style scoped></style>
