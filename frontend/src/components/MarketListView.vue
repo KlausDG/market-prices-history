@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { inject, onMounted, reactive } from "vue";
-import MarketItemsGateway from "../gateways/MarketItemsGateway";
 import ItemsList from "../entities/ItemsList";
 import Observer from "../entities/Observer";
 import MarketListComponent from "./MarketListComponent.vue";
+import MarketItemsGateway from "../gateways/MarketItems/MarketItemsGateway";
 
 const data: any = reactive({
   marketItems: new ItemsList(),

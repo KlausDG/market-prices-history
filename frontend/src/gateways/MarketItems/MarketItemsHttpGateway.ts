@@ -1,5 +1,5 @@
-import ItemsList from "../entities/ItemsList";
-import HttpClient from "../infra/interfaces/HttpClient";
+import ItemsList from "../../entities/ItemsList";
+import HttpClient from "../../infra/interfaces/HttpClient";
 import MarketItemsGateway from "./MarketItemsGateway";
 
 export default class MarketItemsHttpGateway implements MarketItemsGateway {
@@ -7,9 +7,7 @@ export default class MarketItemsHttpGateway implements MarketItemsGateway {
 
   async getItems(): Promise<any> {
     const itemsData = await this.httpClient.get(`${this.baseUrl}/items`);
-
-    const itemsList = new ItemsList(itemsData);
-    return itemsList;
+    return new ItemsList(itemsData);
   }
 
   async addItem(item: any): Promise<any> {
