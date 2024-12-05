@@ -16,6 +16,7 @@ const marketItemsHttpGateway = new MarketItemsHttpGateway(httpClient, baseUrl);
 const receiptHttpGateway = new ReceiptHttpGateway(httpClient, baseUrl);
 
 const qrCodeScanner = new Html5QrCodeAdapter();
+
 const qrCodeScannerService = new QrCodeScannerService(qrCodeScanner);
 
 app.provide("marketItemsGateway", marketItemsHttpGateway);
