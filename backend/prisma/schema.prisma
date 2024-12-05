@@ -32,7 +32,7 @@ model Product {
   measurement_unit    MeasurementUnit @relation(fields: [measurement_unit_id], references: [id])
   measurement_unit_id Int
 
-  price_history PriceHistory[]
+  price_history  PriceHistory[]
   purchased_item PurchasedProduct[]
 }
 
@@ -51,6 +51,7 @@ model Purchase {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
+  total_items    Int
   total_price    Float
   purchased_date DateTime @default(now())
 
