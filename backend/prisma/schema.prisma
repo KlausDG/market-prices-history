@@ -9,81 +9,83 @@ datasource db {
 }
 
 model Market {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   description String @unique
   cnpj        String @unique
   address     String
 
-  Purchase Purchase[]
+  purchase      Purchase[]
+  price_history PriceHistory[]
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  code             Int    @unique
-  description      String
+  code        Int    @unique
+  description String
 
-  measurementUnit MeasurementUnit @relation(fields: [measurementUnitId], references: [id])
-  measurementUnitId Int
+  measurement_unit    MeasurementUnit @relation(fields: [measurement_unit_id], references: [id])
+  measurement_unit_id Int
 
-  PriceHistory PriceHistory[]
-
-  PurchaseItem PurchaseItem[]
+  price_history PriceHistory[]
+  purchased_item PurchasedProduct[]
 }
 
 model MeasurementUnit {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  updatedAt    DateTime @updatedAt
-  name         String?  @unique
-  abbreviation String   @unique
-  description  String?
+  description String @unique
 
-  Product Product[]
+  product Product[]
 }
 
 model Purchase {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  marketId    Int
-  market      Market    @relation(fields: [marketId], references: [id])
+  total_price    Float
+  purchased_date DateTime @default(now())
 
-  totalAmount Float     
-  PurchaseItems PurchaseItem[]
+  market_id Int
+  market    Market @relation(fields: [market_id], references: [id])
+
+  purchased_items PurchasedProduct[]
 }
 
-model PurchaseItem {
-  id           Int       @id @default(autoincrement())
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+model PurchasedProduct {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  purchaseId   Int
-  purchase     Purchase  @relation(fields: [purchaseId], references: [id])
+  quantity      Float
+  unitary_price Float
+  total_price   Float
 
-  productId    Int
-  product      Product   @relation(fields: [productId], references: [id])
+  purchase_id Int
+  purchase    Purchase @relation(fields: [purchase_id], references: [id])
 
-  quantity     Float
-  unitPrice    Float
-  totalPrice   Float
+  product_id Int
+  product    Product @relation(fields: [product_id], references: [id])
 }
 
 model PriceHistory {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  productId   Int
-  product     Product   @relation(fields: [productId], references: [id])
+  product_id Int
+  product    Product @relation(fields: [product_id], references: [id])
+  market_id  Int
+  market     Market  @relation(fields: [market_id], references: [id])
 
-  date        DateTime
-  price       Float   
+  date  DateTime
+  price Float
 }
