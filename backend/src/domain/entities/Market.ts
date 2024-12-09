@@ -5,19 +5,32 @@ export default class Market {
   private id: UUID;
   private cnpj: CNPJ;
 
-  constructor(id: string, readonly description: string, cnpj: string, readonly address: string) {
+  constructor(id: string, readonly description: string, cnpj: string, readonly address?: string) {
     this.id = new UUID(id);
     this.cnpj = new CNPJ(cnpj);
-    this.description = description;
+
+    if (!description) {
+      throw new Error("Description must not be empty.");
+    }
   }
 
-  static create(description: string, cnpj: string, address: string) {
-    const id = crypto.randomUUID();
-
-    return new Market(id, description, cnpj, address);
+  getId() {
+    return this.id.getValue();
   }
 
-  getValues() {
+  getDescription() {
+    return this.description;
+  }
+
+  getCnpj() {
+    return this.cnpj.format();
+  }
+
+  getAddress() {
+    return this.address || "";
+  }
+
+  get getValues() {
     return {
       id: this.id.getValue(),
       description: this.description,

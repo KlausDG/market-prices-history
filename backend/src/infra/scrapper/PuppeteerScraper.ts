@@ -1,17 +1,17 @@
 import puppeteer from "puppeteer";
 
 interface MarketData {
-  name: string;
+  description: string;
   cnpj: string;
   address: string;
 }
 
 interface ItemData {
-  name: string;
+  description: string;
   code: number;
   quantity: number;
-  unit: string;
-  unitValue: number;
+  measurementUnit: string;
+  unitaryValue: number;
   totalValue: number;
 }
 
@@ -27,7 +27,7 @@ export interface Scraper {
 }
 
 export class PuppeteerAdapter implements Scraper {
-  async scrape(url: string): Promise<any> {
+  async scrape(url: string): Promise<PurchaseData> {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
@@ -54,11 +54,11 @@ export class PuppeteerAdapter implements Scraper {
 
         const rows = Array.from(document.querySelectorAll("tr"));
         const items = rows.map((row) => ({
-          name: row.querySelector(".txtTit")?.textContent?.trim() || "",
+          description: row.querySelector(".txtTit")?.textContent?.trim() || "",
           code: parseInt(row.querySelector(".RCod")?.textContent?.match(/(\d+)/)?.[1] || "0", 10),
           quantity: parseFloat(row.querySelector(".Rqtd")?.textContent?.match(/Qtde\.\:\s*(\d+)/)?.[1] || "0"),
-          unit: row.querySelector(".RUN")?.textContent?.match(/UN:\s*(\w+)/)?.[1] || "",
-          unitValue: parseFloat(
+          measurementUnit: row.querySelector(".RUN")?.textContent?.match(/UN:\s*(\w+)/)?.[1] || "",
+          unitaryValue: parseFloat(
             row
               .querySelector(".RvlUnit")
               ?.textContent?.match(/([\d,]+)/)?.[1]
@@ -73,7 +73,7 @@ export class PuppeteerAdapter implements Scraper {
         );
 
         return {
-          market: { name: marketName, cnpj: marketCnpj, address: marketAddress },
+          market: { description: marketName, cnpj: marketCnpj, address: marketAddress },
           items,
           totalItems,
           totalPrice,
@@ -82,7 +82,7 @@ export class PuppeteerAdapter implements Scraper {
 
       return {
         market: {
-          name: data.market.name,
+          description: data.market.description,
           cnpj: PuppeteerAdapter.extractCnpj(data.market.cnpj),
           address: PuppeteerAdapter.clearAddress(data.market.address),
         },

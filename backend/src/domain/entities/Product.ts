@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import UUID from "../vo/UUID";
 
 export default class Product {
@@ -12,12 +11,6 @@ export default class Product {
     this.measurementUnitId = new UUID(measurementUnitId);
     this.description = description;
     this.code = code;
-  }
-
-  static create(description: string, code: number, measurementUnitId: string) {
-    const id = crypto.randomUUID();
-
-    return new Product(id, measurementUnitId, description, code);
   }
 
   getId() {
