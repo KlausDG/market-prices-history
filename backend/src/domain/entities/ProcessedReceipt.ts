@@ -10,6 +10,8 @@ interface ProductData {
 }
 
 export default class ProcessedReceipt {
+  readonly issueDate: string;
+
   constructor(
     readonly market: Market,
     readonly productsList: ProductData[],
@@ -19,6 +21,8 @@ export default class ProcessedReceipt {
     if (productsList.length === 0 || totalItems === 0) {
       throw new Error("A receipt must have at least one item.");
     }
+
+    this.issueDate = new Date().toISOString();
   }
 
   getValues() {
@@ -27,6 +31,7 @@ export default class ProcessedReceipt {
       productsList: this.productsList,
       totalItems: this.totalItems,
       totalPrice: this.totalPrice,
+      issueDate: this.issueDate,
     };
   }
 }
