@@ -56,7 +56,7 @@ export class PuppeteerAdapter implements Scraper {
         const items = rows.map((row) => ({
           description: row.querySelector(".txtTit")?.textContent?.trim() || "",
           code: parseInt(row.querySelector(".RCod")?.textContent?.match(/(\d+)/)?.[1] || "0", 10),
-          quantity: parseFloat(row.querySelector(".Rqtd")?.textContent?.match(/Qtde\.\:\s*(\d+)/)?.[1] || "0"),
+          quantity: parseFloat(row.querySelector(".Rqtd")?.textContent?.split(":")[1].replace(",", ".") || "0"),
           measurementUnit: row.querySelector(".RUN")?.textContent?.match(/UN:\s*(\w+)/)?.[1] || "",
           unitaryValue: parseFloat(
             row
