@@ -24,14 +24,6 @@ new ReceiptController(httpServer, processReceipt);
 
 httpServer.listen(3000);
 
-// httpServer.register("get", "/scrape", async () => {
-//   const output = Puppeteer.scrape(
-//     "https://dfe-portal.svrs.rs.gov.br/Dfe/QrCodeNFce?p=43241104204666000112650480000475891040270341|2|1|1|04C2781CBC8A770E9DEF4F6DF88BE86820C5921E"
-//   );
-
-//   return output;
-// });
-
 /**
  * Endpoints:
  * - GET - Scrap Receipt:
